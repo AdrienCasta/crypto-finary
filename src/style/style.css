@@ -1,0 +1,32 @@
+html {
+  font-size: 10px;
+}
+
+:root {
+  --spacing: 0.8rem;
+  --secondary: #f1c086;
+
+  /* colors */
+  --color-gold: #f1c086;
+  --color-gold-r: 241;
+  --color-gold-g: 192;
+  --color-gold-b: 134;
+}
+h1,
+h2,
+h3 {
+  --typography-spacing-vertical: 0;
+  line-height: initial;
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="dark"]) {
+    --background-color: #141516;
+  }
+}
+
+[data-theme="dark"] {
+  --background-color: #141516;
+  --primary: #fff;
+  --color: var(--primary);
+}
