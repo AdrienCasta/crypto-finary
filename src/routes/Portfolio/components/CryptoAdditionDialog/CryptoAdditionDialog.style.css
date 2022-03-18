@@ -4,6 +4,7 @@
 
 .portfolio__dialog__header {
   padding: calc(var(--spacing) * 4) calc(var(--spacing) * 4.5);
+  margin-bottom: calc(var(--spacing) * 7);
   background-color: var(--background-color);
   display: flex;
   justify-content: space-between;
@@ -37,4 +38,8 @@
 .portfolio__dialog__header__step {
   display: flex;
   align-items: center;
+}
+.portfolio__dialog__form {
+  display: flex;
+  justify-content: center;
 }

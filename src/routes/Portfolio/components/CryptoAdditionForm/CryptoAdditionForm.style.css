@@ -1,0 +1,79 @@
+.portfolio__crypto_addition_form {
+  max-width: 68rem;
+}
+.portfolio__crypto_addition__legend {
+  font-weight: 700;
+  font-size: 2.4rem;
+  border: 1px solid red;
+  width: 100%;
+  padding-bottom: calc(var(--spacing) * 2);
+  margin-bottom: calc(var(--spacing) * 4);
+  border: 0.1rem solid transparent;
+  border-bottom-color: rgba(
+    var(--color-emperor-r),
+    var(--color-emperor-g),
+    var(--color-emperor-b),
+    0.2
+  );
+}
+.portfolio__crypto_addition_form__row {
+  display: flex;
+  flex-direction: row;
+  gap: calc(var(--spacing) * 2);
+}
+.portfolio__crypto_addition_form__row_date {
+  margin-top: calc(var(--spacing) * 4);
+}
+.portfolio__crypto_addition_form__field_name {
+  width: 100%;
+}
+
+.portfolio__crypto_addition_form__field_quantity,
+.portfolio__crypto_addition_form__field_price {
+  width: 10rem;
+}
+.portfolio__crypto_addition_form__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.portfolio__crypto_addition_form__footer__button {
+  width: auto;
+  background-color: var(--color-gold);
+  color: var(--color-coal);
+  border: none;
+}
+.portfolio__crypto_addition_form__dropdown {
+  position: absolute;
+  opacity: 0;
+}
+.portfolio__crypto_addition_form__dropdown__list {
+}
+
+.portfolio__crypto_addition_form__dropdown__item {
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+  border: 0.1rem solid transparent;
+  border-color: var(--color-emperor);
+  height: 6.4rem;
+  white-space: normal;
+}
+.portfolio__crypto_addition_form__dropdown__item img {
+  width: 4rem;
+  margin-right: 1.6rem;
+}
+.portfolio__crypto_addition_form__dropdown__item label {
+  width: 100%;
+  height: 100%;
+  padding: calc(var(--spacing) * 2);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+}
+.portfolio__crypto_addition_form__dropdown__item input {
+  position: absolute;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
