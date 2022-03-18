@@ -1,0 +1,3 @@
+.card {
+  border-radius: calc(var(--border-radius) * 2);
+}
