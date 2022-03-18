@@ -1,0 +1,22 @@
+.toast {
+  display: flex;
+  align-items: center;
+
+  background-color: rgba(
+    var(--color-emperor-r),
+    var(--color-emperor-g),
+    var(--color-emperor-b),
+    0.2
+  );
+
+  padding: calc(var(--spacing) * 1.5);
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: 0.1rem solid var(--color-mine-shaft);
+  border-radius: 0.4rem;
+  max-width: 27.7rem;
+  width: 100%;
+}
+.toast__message {
+  margin-left: calc(var(--spacing) * 1.5);
+}
