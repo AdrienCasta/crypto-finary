@@ -4,17 +4,43 @@ html {
 
 :root {
   --spacing: 0.8rem;
+  --border-radius: 0.4rem;
   --secondary: #f1c086;
 
   /* colors */
+  --color-emperor: #525252;
+  --color-emperor-r: 80;
+  --color-emperor-g: 80;
+  --color-emperor-b: 80;
+
+  --color-mine-shaft: #3d3d3d;
+  --color-mine-shaft-r: 61;
+  --color-mine-shaft-g: 61;
+  --color-mine-shaft-b: 61;
+
+  --color-coal: #141516;
+  --color-coal-r: 20;
+  --color-coal-g: 21;
+  --color-coal-b: 22;
+
   --color-gold: #f1c086;
   --color-gold-r: 241;
   --color-gold-g: 192;
   --color-gold-b: 134;
+
+  /* z-index */
+
+  --z-index-toasts: 10;
+
   /* card */
 
   --card-box-shadow: 0 0 4rem rgba(0, 0, 0, 0.2);
 
+  /* Form */
+
+  --form-element-background-color: var(--color-mine-shaft);
+  --form-element-spacing-vertical: 1.6rem;
+  --form-element-spacing-horizontal: 1.6rem;
 }
 h1,
 h2,
@@ -22,15 +48,52 @@ h3 {
   --typography-spacing-vertical: 0;
   line-height: initial;
 }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  height: 4.8rem;
+}
+input,
+select,
+textarea {
+  --border-color: var(--color-emperor);
+  --font-weight: 600;
+  font-size: 1.2rem;
+}
+
+fieldset legend,
+label {
+  margin-bottom: var(--spacing);
+  font-size: 1.4rem;
+}
+
+details[role="list"] summary + ul,
+li[role="list"] > ul {
+  background-color: #202122;
+}
+details[role="list"] summary + ul li,
+li[role="list"] > ul li {
+  padding: calc(var(--spacing) * 1.5);
+}
 
 @media only screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="dark"]) {
-    --background-color: #141516;
+    --background-color: var(--color-coal);
   }
 }
 
 [data-theme="dark"] {
-  --background-color: #141516;
+  --background-color: var(--color-coal);
   --primary: #fff;
   --color: var(--primary);
+
+  --card-background-color: linear-gradient(
+    116deg,
+    rgba(
+        var(--color-mine-shaft-r),
+        var(--color-mine-shaft-g),
+        var(--color-mine-shaft-b),
+        0.64
+      ) -4.44%,
+    rgba(var(--color-coal-r), var(--color-coal-g), var(--color-coal-b), 0.64)
+      117.28%
+  );
 }
