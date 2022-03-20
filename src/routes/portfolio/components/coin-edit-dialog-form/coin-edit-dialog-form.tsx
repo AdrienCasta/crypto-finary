@@ -101,7 +101,8 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
               <input
                 value={fields.coinBoughtQuantity}
                 type="number"
-                min="1"
+                step="0.01"
+                min="0"
                 onInput={form.handleQuantityChange}
               />
             </div>

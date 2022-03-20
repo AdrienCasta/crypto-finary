@@ -71,7 +71,7 @@ const t = new Date();
 const defaultState = {
   coinBoughtValue: 0,
   coinMarketValue: 0,
-  coinBoughtQuantity: 1,
+  coinBoughtQuantity: 0.1,
   coinList: [],
   coin: null,
   coinText: "",
