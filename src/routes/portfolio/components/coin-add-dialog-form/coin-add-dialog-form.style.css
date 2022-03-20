@@ -1,5 +1,6 @@
 .coin_add__form {
   max-width: 68rem;
+  width: 100%;
 }
 .coin_add__legend {
   font-weight: 700;
@@ -30,11 +31,9 @@
 
 .coin_add__form__field_quantity,
 .coin_add__form__field_price {
-  width: 10rem;
+  max-width: 10rem;
 }
-.coin_add__form__field_price input {
-  padding: 0 !important;
-}
+
 .coin_add__form__footer {
   display: flex;
   justify-content: flex-end;
@@ -81,4 +80,5 @@
 .coin_add__form__footer__button {
   font-size: 1.4rem;
   font-weight: 600;
+  padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 4);
 }

@@ -34,7 +34,7 @@ const CoinTable = () => {
               <td class={style.coin_table__td}>Quantité</td>
               <td class={style.coin_table__td}>Cours</td>
               <td class={style.coin_table__td}>Valeur</td>
-              <td class={style.coin_table__td}>+/- value</td>
+              <td class={style.coin_table__td}>+ / - value</td>
               <td class={style.coin_table__td}></td>
             </tr>
           </thead>

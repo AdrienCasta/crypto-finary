@@ -5,7 +5,6 @@ html {
 :root {
   --spacing: 0.8rem;
   --border-radius: 0.4rem;
-  --secondary: #f1c086;
 
   /* colors */
   --color-emperor: #525252;
@@ -45,7 +44,7 @@ html {
   /* card */
 
   --card-box-shadow: 0 0 4rem rgba(0, 0, 0, 0.2);
-  --card-sectionning-background-color: var(--primary);
+  --card-sectionning-background-color: transparent;
 
   /* Form */
 

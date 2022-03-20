@@ -10,7 +10,7 @@ const formatFinancialGain = (gain: number) => {
 };
 
 const formatPercentageGain = (gain: number) => {
-  return `${operator(gain)}${gain.toFixed(2)}`;
+  return `${operator(gain)}${gain.toFixed(2)} %`;
 };
 
 interface Props {
