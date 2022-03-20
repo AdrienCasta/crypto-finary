@@ -1,35 +1,35 @@
 import { Fragment, FunctionalComponent, h } from "preact";
 
-import { usePortfolioCryptoAdditionDialog } from "./portfolio.hooks";
+import { useDialog } from "./portfolio.hooks";
 import style from "./portfolio.style.css";
 import { CryptoAdditionDialog } from "./components";
 
-import { BaseButtonPlus } from "../../components/Base/Button/Button";
+import { BaseButtonPlus } from "../../components/base/button/button";
 import { PortfolioProvider, usePortfolio } from "./porfolio.context";
 import { useEffect, useMemo } from "preact/hooks";
 import CoinTable from "./components/coin-table/coin-table";
-import { Card } from "../../components/Base";
+import { Card } from "../../components/base";
 import { toEuro } from "../../utils/format";
 import Pie from "./components/pie/pie";
+import CoinGainChip from "./components/gain-chip/gain-chip";
 
 const Portfolio: FunctionalComponent = () => {
-  const { openDialog, closeDialog, isOpen } =
-    usePortfolioCryptoAdditionDialog(false);
+  const { openDialog, closeDialog, isOpen } = useDialog(false);
 
-  const { coinList, portfolioValue: value } = usePortfolio();
+  const { coinList, capitalGain, percentageCapitalGain } = usePortfolio();
 
   useEffect(() => {
     closeDialog();
   }, [coinList]);
 
-  const portfolioValue = value ? toEuro(value) : "";
+  const portfolioCapitalGain = capitalGain ? toEuro(capitalGain) : "";
 
   const pieDataChart = useMemo(
     () =>
-      coinList.map(({ coinValue, coin }) => ({
+      coinList.map(({ coinBoughtValue, coin }) => ({
         id: coin.name,
         label: coin.name,
-        value: coinValue,
+        value: coinBoughtValue,
       })),
     [coinList]
   );
@@ -40,11 +40,14 @@ const Portfolio: FunctionalComponent = () => {
         <div class={style.portfolio__plus_button}>
           <BaseButtonPlus onClick={openDialog} />
         </div>
-        <h1 class={style.portfolio__title}>Crypto {portfolioValue}</h1>
+        <h1 class={style.portfolio__title}>
+          Crypto {portfolioCapitalGain}{" "}
+          <CoinGainChip as="%" gain={percentageCapitalGain} />
+        </h1>
         {coinList.length > 0 ? (
           <section class="grid">
             <Pie data={pieDataChart} />
-            <CoinTable coinPortfolioList={coinList} />
+            <CoinTable />
           </section>
         ) : (
           <Card>

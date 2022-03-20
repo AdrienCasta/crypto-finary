@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
-import { Card } from "../../../../components/Base";
-import { BaseButtonPlus } from "../../../../components/Base/Button/Button";
+import { Card } from "../../../../components/base";
+import { BaseButtonPlus } from "../../../../components/base/button/button";
 import { useToast } from "../../../../contexts/ToastContext/ToastContext";
 import { usePortfolio } from "../../porfolio.context";
 import { PortfolioCoinType } from "../../portfolio.types";

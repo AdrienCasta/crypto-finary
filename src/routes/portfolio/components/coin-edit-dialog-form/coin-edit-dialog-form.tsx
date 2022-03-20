@@ -3,7 +3,7 @@ import { PortfolioCoinType } from "../../portfolio.types";
 import useCoinForm from "../../hooks/useCoinForm";
 import styles from "./coin-edit-dialog-form.style.css";
 import { usePortfolio } from "../../porfolio.context";
-import { BaseButtonClose } from "../../../../components/Base/Button/Button";
+import { BaseButtonClose } from "../../../../components/base/button/button";
 import { toEuro, yyyymmdd } from "../../../../utils/format";
 
 interface Props {
@@ -19,9 +19,9 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
 
   const { fields, status, form } = useCoinForm({
     coin: coinDetails.coin,
-    coinValue: coinDetails.coinValue,
-    coinMarketPrice: coinDetails.coinMarketPrice,
-    coinQuantity: coinDetails.coinQuantity,
+    coinBoughtValue: coinDetails.coinBoughtValue,
+    coinMarketValue: coinDetails.coinMarketValue,
+    coinBoughtQuantity: coinDetails.coinBoughtQuantity,
     coinText: coinDetails.coin.name,
     coinDate: coinDetails.coindate,
   });
@@ -32,9 +32,9 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
       onEdit({
         id: coinDetails.id,
         coin: fields.coin,
-        coinQuantity: fields.coinQuantity,
-        coinValue: fields.coinValue,
-        coinMarketPrice: fields.coinMarketPrice,
+        coinBoughtQuantity: fields.coinBoughtQuantity,
+        coinBoughtValue: fields.coinBoughtValue,
+        coinMarketValue: fields.coinMarketValue,
         coindate: fields.coinDate,
       });
     }
@@ -99,7 +99,7 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
             <div class={styles.coin_edit_form__field_quantity}>
               <label htmlFor="">Quantité</label>
               <input
-                value={fields.coinQuantity}
+                value={fields.coinBoughtQuantity}
                 type="number"
                 min="1"
                 onInput={form.handleQuantityChange}
@@ -112,7 +112,7 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
               <input
                 type="text"
                 readonly
-                value={toEuro(fields.coinValue)}
+                value={toEuro(fields.coinBoughtValue)}
                 disabled
               />
             </div>

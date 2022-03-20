@@ -18,9 +18,9 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
       onAddition({
         id: uuid(),
         coin: fields.coin,
-        coinQuantity: fields.coinQuantity,
-        coinValue: fields.coinValue,
-        coinMarketPrice: fields.coinMarketPrice,
+        coinBoughtQuantity: fields.coinBoughtQuantity,
+        coinBoughtValue: fields.coinBoughtValue,
+        coinMarketValue: fields.coinMarketValue,
         coindate: fields.coinDate,
       });
     }
@@ -78,7 +78,7 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
             <div class={styles.coin_add__form__field_quantity}>
               <label htmlFor="">Quantité</label>
               <input
-                value={fields.coinQuantity}
+                value={fields.coinBoughtQuantity}
                 type="number"
                 min="1"
                 onInput={form.handleQuantityChange}
@@ -91,7 +91,7 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
               <input
                 type="text"
                 readonly
-                value={toEuro(fields.coinValue)}
+                value={toEuro(fields.coinBoughtValue)}
                 disabled
               />
             </div>

@@ -3,8 +3,13 @@ import { CoinType } from "../../types";
 export interface PortfolioCoinType {
   id: CoinType["id"];
   coin: CoinType;
-  coinQuantity: number;
-  coinValue: number;
-  coinMarketPrice: number;
+  coinBoughtQuantity: number;
+  coinBoughtValue: number;
+  coinMarketValue: number;
   coindate: Date;
+  capitalGain?: number;
+}
+
+export interface PortfolioType {
+  coins: [];
 }

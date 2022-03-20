@@ -1,22 +1,18 @@
 import { Fragment, h } from "preact";
 import { useEffect } from "preact/hooks";
-import { Card } from "../../../../components/Base";
-import { BaseButtonEdit } from "../../../../components/Base/Button/Button";
+import { Card } from "../../../../components/base";
+import { BaseButtonEdit } from "../../../../components/base/button/button";
 import { toEuro } from "../../../../utils/format";
 import { usePortfolio } from "../../porfolio.context";
-import { usePortfolioCryptoAdditionDialog } from "../../portfolio.hooks";
+import { useDialog } from "../../portfolio.hooks";
 import { PortfolioCoinType } from "../../portfolio.types";
 import CoinEditDialog from "../coin-edit-dialog/coin-edit-dialog";
+import CoinGainChip from "../gain-chip/gain-chip";
 import style from "./coin-table.style.css";
 
-interface Props {
-  coinPortfolioList: PortfolioCoinType[];
-}
-
-const CoinTable = ({ coinPortfolioList }: Props) => {
-  const { openDialog, closeDialog, isOpen } =
-    usePortfolioCryptoAdditionDialog(false);
-  const { setCoinDetails, coinDetails, coinList, portfolioValue } =
+const CoinTable = () => {
+  const { openDialog, closeDialog, isOpen } = useDialog(false);
+  const { setCoinDetails, coinDetails, coinList2, capitalGain } =
     usePortfolio();
 
   const handleEditCoin = (coin: PortfolioCoinType) => (event: Event) => {
@@ -26,7 +22,7 @@ const CoinTable = ({ coinPortfolioList }: Props) => {
 
   useEffect(() => {
     closeDialog();
-  }, [coinList]);
+  }, [coinList2]);
 
   return (
     <Fragment>
@@ -38,11 +34,12 @@ const CoinTable = ({ coinPortfolioList }: Props) => {
               <td class={style.coin_table__td}>Quantité</td>
               <td class={style.coin_table__td}>Cours</td>
               <td class={style.coin_table__td}>Valeur</td>
+              <td class={style.coin_table__td}>+/- value</td>
               <td class={style.coin_table__td}></td>
             </tr>
           </thead>
           <tbody>
-            {coinPortfolioList.map((coinPortfolioListItem) => {
+            {coinList2.map((coinPortfolioListItem) => {
               return (
                 <tr
                   class={style.coin_table__tr}
@@ -60,13 +57,23 @@ const CoinTable = ({ coinPortfolioList }: Props) => {
                     </span>
                   </td>
                   <td class={style.coin_table__td}>
-                    <span>{coinPortfolioListItem.coinQuantity}</span>
+                    <span>{coinPortfolioListItem.coinBoughtQuantity}</span>
                   </td>
                   <td class={style.coin_table__td}>
-                    <span>{toEuro(coinPortfolioListItem.coinMarketPrice)}</span>
+                    <span>{toEuro(coinPortfolioListItem.coinMarketValue)}</span>
                   </td>
                   <td class={style.coin_table__td}>
-                    <span>{toEuro(coinPortfolioListItem.coinValue)}</span>
+                    <span>
+                      {toEuro(
+                        coinPortfolioListItem.coinMarketValue *
+                          coinPortfolioListItem.coinBoughtQuantity
+                      )}
+                    </span>
+                  </td>
+                  <td class={style.coin_table__td}>
+                    <CoinGainChip
+                      gain={coinPortfolioListItem.capitalGain as number}
+                    />
                   </td>
                   <td class={style.coin_table__td}>
                     <BaseButtonEdit
@@ -84,7 +91,7 @@ const CoinTable = ({ coinPortfolioList }: Props) => {
               </td>
               <td class={style.coin_table__td}></td>
               <td class={style.coin_table__td}></td>
-              <td class={style.coin_table__td}>{toEuro(portfolioValue)}</td>
+              <td class={style.coin_table__td}>{toEuro(capitalGain)}</td>
             </tr>
           </tfoot>
         </table>

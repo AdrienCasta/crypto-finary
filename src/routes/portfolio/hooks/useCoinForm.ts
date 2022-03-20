@@ -4,9 +4,9 @@ import { CoinType } from "../../../types";
 import { ddmmyyyy } from "../../../utils/format";
 
 interface State {
-  coinValue: number;
-  coinMarketPrice: number;
-  coinQuantity: number;
+  coinBoughtValue: number;
+  coinMarketValue: number;
+  coinBoughtQuantity: number;
   coinList: CoinType[];
   coin: CoinType | null;
   coinText: string;
@@ -37,15 +37,15 @@ function formReducer(state: State, action: Action): State {
     case "SET_COIN_QUANTITY":
       return {
         ...state,
-        coinQuantity: action.payload,
-        coinValue: (action.payload as number) * state.coinValue,
+        coinBoughtQuantity: action.payload,
+        coinBoughtValue: (action.payload as number) * state.coinBoughtValue,
       };
     case "SET_COIN_VALUE":
-      return { ...state, coinValue: action.payload };
+      return { ...state, coinBoughtValue: action.payload };
     case "SET_COIN_DATE":
       return { ...state, coinDate: action.payload };
     case "SET_COIN_MARKET_PRICE":
-      return { ...state, coinMarketPrice: action.payload };
+      return { ...state, coinMarketValue: action.payload };
     case "SET_COIN_LIST":
       return { ...state, coinList: action.payload };
     case "SET_COIN_FETCHING":
@@ -69,9 +69,9 @@ function formReducer(state: State, action: Action): State {
 const t = new Date();
 
 const defaultState = {
-  coinValue: 0,
-  coinMarketPrice: 0,
-  coinQuantity: 1,
+  coinBoughtValue: 0,
+  coinMarketValue: 0,
+  coinBoughtQuantity: 1,
   coinList: [],
   coin: null,
   coinText: "",
@@ -85,11 +85,11 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
   const [
     {
       coin,
-      coinValue,
+      coinBoughtValue,
       coinList,
-      coinQuantity,
+      coinBoughtQuantity,
       coinText,
-      coinMarketPrice,
+      coinMarketValue,
       coinDate,
       coinFetching,
       coinPriceFetching,
@@ -101,11 +101,11 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     dispatch({ type: "SET_COIN_TEXT", payload: value });
   };
 
-  const setCoinQuantity = (value: number) => {
+  const setcoinBoughtQuantity = (value: number) => {
     dispatch({ type: "SET_COIN_QUANTITY", payload: value });
   };
 
-  const setCoinValue = (value: number) => {
+  const setcoinBoughtValue = (value: number) => {
     dispatch({ type: "SET_COIN_VALUE", payload: value });
   };
 
@@ -127,7 +127,7 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     });
   };
 
-  const setCoinMarketPrice = (price: string) => {
+  const setcoinMarketValue = (price: string) => {
     dispatch({
       type: "SET_COIN_MARKET_PRICE",
       payload: price,
@@ -198,8 +198,10 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
       const json = await data.json();
 
       if (isSubscribed) {
-        setCoinValue(json.market_data.current_price.eur * coinQuantity);
-        setCoinMarketPrice(json.market_data.current_price.eur);
+        setcoinBoughtValue(
+          json.market_data.current_price.eur * coinBoughtQuantity
+        );
+        setcoinMarketValue(json.market_data.current_price.eur);
         setCoinPriceFetching(false);
       }
     };
@@ -207,7 +209,7 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     fetchData().catch(console.error);
 
     return () => (isSubscribed = false);
-  }, [coinQuantity, coin]);
+  }, [coinBoughtQuantity, coin]);
 
   /**
    *
@@ -235,8 +237,10 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
       const json = await data.json();
 
       if (isSubscribed) {
-        setCoinValue(json.market_data.current_price.eur * coinQuantity);
-        setCoinMarketPrice(json.market_data.current_price.eur);
+        setcoinBoughtValue(
+          json.market_data.current_price.eur * coinBoughtQuantity
+        );
+        setcoinMarketValue(json.market_data.current_price.eur);
         setCoinPriceFetching(false);
       }
     };
@@ -260,7 +264,7 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
 
   const handleQuantityChange = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
-      setCoinQuantity(+event.target.value);
+      setcoinBoughtQuantity(+event.target.value);
     }
   };
 
@@ -282,10 +286,10 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
   const fields = {
     coin,
     coinList,
-    coinValue,
-    coinQuantity,
+    coinBoughtValue,
+    coinBoughtQuantity,
     coinText,
-    coinMarketPrice,
+    coinMarketValue,
     coinDate,
   };
 

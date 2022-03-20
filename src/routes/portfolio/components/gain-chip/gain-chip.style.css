@@ -1,0 +1,23 @@
+.coin_chip_gain_positif,
+.coin_chip_gain_negatif {
+  padding: calc(var(--spacing) / 2);
+  border-radius: var(--border-radius);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-green-meadow);
+  background-color: rgba(
+    var(--color-green-meadow-r),
+    var(--color-green-meadow-g),
+    var(--color-green-meadow-b),
+    0.24
+  );
+}
+.coin_chip_gain_negatif {
+  color: var(--color-red-cinnabar);
+  background-color: rgba(
+    var(--color-red-cinnabar-r),
+    var(--color-red-cinnabar-g),
+    var(--color-red-cinnabar-b),
+    0.24
+  );
+}

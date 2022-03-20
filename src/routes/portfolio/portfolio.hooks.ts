@@ -1,6 +1,6 @@
 import { useBoolean } from "../../hooks";
 
-const usePortfolioCryptoAdditionDialog = (intialOpenState = false) => {
+const useDialog = (intialOpenState = false) => {
   const {
     setFalse: closeDialog,
     setTrue: openDialog,
@@ -14,4 +14,4 @@ const usePortfolioCryptoAdditionDialog = (intialOpenState = false) => {
   };
 };
 
-export { usePortfolioCryptoAdditionDialog };
+export { useDialog };

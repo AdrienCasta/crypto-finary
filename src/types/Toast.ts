@@ -1,5 +1,5 @@
 export default interface Toast {
   message: string;
   show: boolean;
-  type: "success" | "info";
+  type: "success" | "info" | "error";
 }

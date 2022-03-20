@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { ResponsivePie } from "@nivo/pie";
-import { Card } from "../../../../components/Base";
+import { Card } from "../../../../components/base";
 import style from "./pie.style.css";
 
 interface Props {

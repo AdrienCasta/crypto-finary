@@ -1,9 +1,13 @@
 import { createContext, FunctionalComponent, h } from "preact";
 import { useState, useContext, useCallback } from "preact/hooks";
-import { ToastList } from "../../components/Base";
+import { ToastList } from "../../components/base";
 import { ToastType } from "../../types";
 
-const ToastContext = createContext({ addToast: (toast: ToastType) => {} });
+interface ToastState {
+  addToast: (toast: ToastType) => void;
+}
+
+const ToastContext = createContext<ToastState>({} as ToastState);
 
 const ToastProvider: FunctionalComponent = ({ children }) => {
   const [toasts, setToasts] = useState<ToastType[]>([]);

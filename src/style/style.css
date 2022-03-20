@@ -28,6 +28,17 @@ html {
   --color-gold-g: 192;
   --color-gold-b: 134;
 
+  --color-green-meadow: #1FC090;
+  --color-green-meadow-r: 31;
+  --color-green-meadow-g: 192;
+  --color-green-meadow-b: 144;
+
+  --color-red-cinnabar: #E54949;
+  --color-red-cinnabar-r: 229;
+  --color-red-cinnabar-g: 73;
+  --color-red-cinnabar-b: 73;
+  
+
   /* z-index */
 
   --z-index-toasts: 1000;
