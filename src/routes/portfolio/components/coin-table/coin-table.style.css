@@ -1,0 +1,38 @@
+.coin_table__thead {
+  margin-bottom: 2rem;
+}
+.coin_table__td__logo {
+  width: 4rem;
+  margin-right: calc(var(--spacing) * 2);
+}
+.coin_table__tr {
+  height: 6rem;
+}
+.coin_table__td {
+  border: 0;
+}
+
+.coin_table__tfoot {
+  position: relative;
+  transform: translateY(calc(var(--spacing) * 4));
+  height: 9.2rem;
+}
+
+.coin_table__tfoot:before {
+  position: absolute;
+  top: calc(var(--spacing) * -3);
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.1rem;
+  background-color: rgba(
+    var(--color-emperor-r),
+    var(--color-emperor-g),
+    var(--color-emperor-b),
+    0.2
+  );
+}
+
+.coin_table__tfoot td {
+  vertical-align: inherit;
+}

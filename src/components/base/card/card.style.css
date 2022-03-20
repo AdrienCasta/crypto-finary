@@ -1,0 +1,14 @@
+.card {
+  border-radius: calc(var(--border-radius) * 2);
+}
+.card--default {
+}
+
+.card--basic {
+  --card-background-color: var(--color-coal);
+}
+.card__header {
+  font-size: 1.6rem;
+  font-weight: 600;
+  border-bottom: 0;
+}

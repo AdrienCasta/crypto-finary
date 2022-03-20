@@ -1,0 +1,23 @@
+.base__button__plus,
+.base__button__close,
+.base__button__more {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.8rem;
+  background-color: #202122;
+  border: 0;
+  padding: calc(var(--spacing) * 1.5);
+  margin: 0;
+}
+.base__button__more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.base__button__more__label {
+  display: contents;
+  font-size: 2.5rem;
+}
+.base__button__close svg {
+  transform: rotate(45deg);
+}

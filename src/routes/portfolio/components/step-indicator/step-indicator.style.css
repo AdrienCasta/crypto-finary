@@ -1,0 +1,35 @@
+.portfolio__step_indicator {
+  display: flex;
+  align-items: center;
+}
+
+.portfolio__step_indicator__range,
+.portfolio__step_indicator__range::after {
+  border-radius: 0.2rem;
+  display: block;
+  background-color: rgba(
+    var(--color-gold-r),
+    var(--color-gold-g),
+    var(--color-gold-b),
+    0.2
+  );
+  width: 4.8rem;
+  height: 0.4rem;
+}
+.portfolio__step_indicator__range {
+  margin-left: calc(var(--spacing) * 2);
+}
+.portfolio__step_indicator__range::after {
+  content: "";
+  background-color: var(--color-gold);
+  height: 100%;
+}
+.portfolio__step_indicator__range[data-step="1"]::after {
+  width: 33%;
+}
+.portfolio__step_indicator__range[data-step="2"]::after {
+  width: 66%;
+}
+.portfolio__step_indicator__range[data-step="3"]::after {
+  width: 100%;
+}

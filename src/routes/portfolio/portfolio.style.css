@@ -1,0 +1,23 @@
+.portfolio {
+  padding: var(--spacing);
+}
+.portfolio__title {
+  margin: calc(var(--spacing) * 4) 0 calc(var(--spacing) * 3.5);
+}
+
+.portfolio__area__content {
+  height: 34rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.portfolio__area__content__title {
+  margin-bottom: calc(var(--spacing) * 9);
+  font-size: 1.6rem;
+}
+.portfolio__plus_button {
+  position: absolute;
+  top: 2rem;
+  right: 3.2rem;
+}
