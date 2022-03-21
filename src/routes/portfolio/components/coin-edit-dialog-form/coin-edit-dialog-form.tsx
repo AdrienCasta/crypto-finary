@@ -1,16 +1,11 @@
-import { FunctionalComponent, h } from "preact";
-import { PortfolioCoinType } from "../../portfolio.types";
+import { h } from "preact";
 import useCoinForm from "../../hooks/useCoinForm";
 import styles from "./coin-edit-dialog-form.style.css";
 import { usePortfolio } from "../../porfolio.context";
 import { BaseButtonClose } from "../../../../components/base/button/button";
 import { toEuro, yyyymmdd } from "../../../../utils/format";
 
-interface Props {
-  onEdit: (portfolioCoin: PortfolioCoinType) => void;
-}
-
-const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
+const CoinEditDialogForm = () => {
   const { coinDetails } = usePortfolio();
 
   if (!coinDetails) {
@@ -19,8 +14,7 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
 
   const { fields, status, form } = useCoinForm({
     coin: coinDetails.coin,
-    coinBoughtValue: coinDetails.coinBoughtValue,
-    coinMarketValue: coinDetails.coinMarketValue,
+    coinDatedPrice: coinDetails.coinDatedPrice,
     coinBoughtQuantity: coinDetails.coinBoughtQuantity,
     coinText: coinDetails.coin.name,
     coinDate: coinDetails.coindate,
@@ -29,13 +23,8 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
   const handleSubmit = (event: Event) => {
     event.preventDefault();
     if (fields.coin) {
-      onEdit({
+      form.handleAddedCoin({
         id: coinDetails.id,
-        coin: fields.coin,
-        coinBoughtQuantity: fields.coinBoughtQuantity,
-        coinBoughtValue: fields.coinBoughtValue,
-        coinMarketValue: fields.coinMarketValue,
-        coindate: fields.coinDate,
       });
     }
   };
@@ -53,7 +42,7 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
           <div class={styles.coin_edit_form__row}>
             <div class={styles.coin_edit_form__field_name}>
               <label htmlFor="">
-                Nom <span aria-busy={status.coinFetching}></span>
+                Nom <span aria-busy={status.isSearchedCoinFetching}></span>
               </label>
               <input
                 type="text"
@@ -108,12 +97,12 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
             </div>
             <div class={styles.coin_edit_form__field_price}>
               <label htmlFor="">
-                Prix <span aria-busy={status.coinPriceFetching}></span>
+                Prix <span aria-busy={status.isPriceFetching}></span>
               </label>
               <input
                 type="text"
                 readonly
-                value={toEuro(fields.coinBoughtValue)}
+                value={toEuro(fields.coinDatedPrice)}
                 disabled
               />
             </div>
@@ -135,7 +124,7 @@ const CoinEditDialogForm: FunctionalComponent<Props> = ({ onEdit }) => {
           class={styles.coin_edit_form__footer__button}
           type="submit"
           disabled={!status.isFormValid}
-          aria-busy={status.coinFetching || status.coinPriceFetching}
+          aria-busy={status.isPriceFetching || status.isSearchedCoinFetching}
         >
           Enregistrer
         </button>

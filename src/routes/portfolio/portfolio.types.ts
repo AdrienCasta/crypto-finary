@@ -4,7 +4,7 @@ export interface PortfolioCoinType {
   id: CoinType["id"];
   coin: CoinType;
   coinBoughtQuantity: number;
-  coinBoughtValue: number;
+  coinDatedPrice: number;
   coinMarketValue: number;
   coindate: Date;
   capitalGain?: number;

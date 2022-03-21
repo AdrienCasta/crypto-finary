@@ -26,10 +26,10 @@ const Portfolio: FunctionalComponent = () => {
 
   const pieDataChart = useMemo(
     () =>
-      coinList.map(({ coinBoughtValue, coin }) => ({
+      coinList.map(({ coin, coinMarketValue, coinBoughtQuantity }) => ({
         id: coin.name,
         label: coin.name,
-        value: coinBoughtValue,
+        value: +(coinMarketValue * coinBoughtQuantity).toFixed(2),
       })),
     [coinList]
   );

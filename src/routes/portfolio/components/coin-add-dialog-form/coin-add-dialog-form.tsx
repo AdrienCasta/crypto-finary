@@ -1,28 +1,15 @@
-import { FunctionalComponent, h } from "preact";
+import { h } from "preact";
 import { toEuro, yyyymmdd } from "../../../../utils/format";
-import { uuid } from "../../../../utils/mock";
 import useCoinForm from "../../hooks/useCoinForm";
-import { PortfolioCoinType } from "../../portfolio.types";
 import styles from "./coin-add-dialog-form.style.css";
 
-interface Props {
-  onAddition: (portfolioCoin: PortfolioCoinType) => void;
-}
-
-const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
+const CoinAddDialogForm = () => {
   const { fields, status, form } = useCoinForm();
 
   const handleSubmit = (event: Event) => {
     event.preventDefault();
     if (fields.coin) {
-      onAddition({
-        id: uuid(),
-        coin: fields.coin,
-        coinBoughtQuantity: fields.coinBoughtQuantity,
-        coinBoughtValue: fields.coinBoughtValue,
-        coinMarketValue: fields.coinMarketValue,
-        coindate: fields.coinDate,
-      });
+      form.handleAddedCoin(undefined);
     }
   };
 
@@ -34,7 +21,7 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
           <div class={styles.coin_add__form__row}>
             <div class={styles.coin_add__form__field_name}>
               <label htmlFor="">
-                Nom <span aria-busy={status.coinFetching}></span>
+                Nom <span aria-busy={status.isSearchedCoinFetching}></span>
               </label>
               <input
                 type="text"
@@ -87,12 +74,12 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
             </div>
             <div class={styles.coin_add__form__field_price}>
               <label htmlFor="">
-                Prix <span aria-busy={status.coinPriceFetching}></span>
+                Prix <span aria-busy={status.isPriceFetching}></span>
               </label>
               <input
                 type="text"
                 readonly
-                value={toEuro(fields.coinBoughtValue)}
+                value={toEuro(fields.coinDatedPrice)}
                 disabled
               />
             </div>
@@ -114,7 +101,7 @@ const CoinAddDialogForm: FunctionalComponent<Props> = ({ onAddition }) => {
           class={styles.coin_add__form__footer__button}
           type="submit"
           disabled={!status.isFormValid}
-          aria-busy={status.coinFetching || status.coinPriceFetching}
+          aria-busy={status.isSearchedCoinFetching || status.isPriceFetching}
         >
           Ajouter
         </button>

@@ -12,8 +12,7 @@ import style from "./coin-table.style.css";
 
 const CoinTable = () => {
   const { openDialog, closeDialog, isOpen } = useDialog(false);
-  const { setCoinDetails, coinDetails, coinList2, capitalGain } =
-    usePortfolio();
+  const { setCoinDetails, coinDetails, coinList, capitalGain } = usePortfolio();
 
   const handleEditCoin = (coin: PortfolioCoinType) => (event: Event) => {
     setCoinDetails(coin);
@@ -22,7 +21,7 @@ const CoinTable = () => {
 
   useEffect(() => {
     closeDialog();
-  }, [coinList2]);
+  }, [coinList]);
 
   return (
     <Fragment>
@@ -39,7 +38,7 @@ const CoinTable = () => {
             </tr>
           </thead>
           <tbody>
-            {coinList2.map((coinPortfolioListItem) => {
+            {coinList.map((coinPortfolioListItem) => {
               return (
                 <tr
                   class={style.coin_table__tr}

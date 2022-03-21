@@ -1,30 +1,27 @@
-import { useEffect, useReducer, useState } from "preact/hooks";
+import { useEffect, useReducer } from "preact/hooks";
 import { useToast } from "../../../contexts/ToastContext/ToastContext";
 import { CoinType } from "../../../types";
-import { ddmmyyyy } from "../../../utils/format";
+import { uuid } from "../../../utils/mock";
+import { usePortfolio } from "../porfolio.context";
+import { PortfolioCoinType } from "../portfolio.types";
+import useCoinGeckoApi from "./useCoinGeckoApi";
 
 interface State {
-  coinBoughtValue: number;
-  coinMarketValue: number;
+  coinDatedPrice: number;
   coinBoughtQuantity: number;
   coinList: CoinType[];
   coin: CoinType | null;
   coinText: string;
   coinDate: Date;
-  coinFetching: boolean;
-  coinPriceFetching: boolean;
 }
 
 interface Action {
   type:
     | "SET_COIN_TEXT"
     | "SET_COIN_QUANTITY"
-    | "SET_COIN_VALUE"
-    | "SET_COIN_MARKET_PRICE"
+    | "SET_COIN_DATED_PRICE"
     | "SET_COIN_LIST"
     | "SET_COIN_DATE"
-    | "SET_COIN_FETCHING"
-    | "SET_COIN_PRICE_FETCHING"
     | "SET_COIN_DETAILS"
     | "SET_COIN";
   payload: any;
@@ -38,22 +35,13 @@ function formReducer(state: State, action: Action): State {
       return {
         ...state,
         coinBoughtQuantity: action.payload,
-        coinBoughtValue: (action.payload as number) * state.coinBoughtValue,
       };
-    case "SET_COIN_VALUE":
-      return { ...state, coinBoughtValue: action.payload };
+    case "SET_COIN_DATED_PRICE":
+      return { ...state, coinDatedPrice: action.payload };
     case "SET_COIN_DATE":
       return { ...state, coinDate: action.payload };
-    case "SET_COIN_MARKET_PRICE":
-      return { ...state, coinMarketValue: action.payload };
     case "SET_COIN_LIST":
       return { ...state, coinList: action.payload };
-    case "SET_COIN_FETCHING":
-      return { ...state, coinFetching: action.payload };
-    case "SET_COIN_PRICE_FETCHING":
-      return { ...state, coinPriceFetching: action.payload };
-    case "SET_COIN_PRICE_FETCHING":
-      return { ...state, coinPriceFetching: action.payload };
     case "SET_COIN":
       return {
         ...state,
@@ -66,34 +54,28 @@ function formReducer(state: State, action: Action): State {
   }
 }
 
-const t = new Date();
-
-const defaultState = {
-  coinBoughtValue: 0,
-  coinMarketValue: 0,
+const defaultState: State = {
+  coinDatedPrice: 0,
   coinBoughtQuantity: 0.1,
   coinList: [],
   coin: null,
   coinText: "",
-  coinDate: t,
-  coinFetching: false,
-  coinPriceFetching: false,
+  coinDate: new Date(),
 };
 
 const useCoinForm = (initialState: Partial<State> = {}) => {
+  const { addCoin, updateCoinDetails } = usePortfolio();
   const { addToast } = useToast();
+
+  const {
+    fetchCoinPriceByDate,
+    fetchCoinByName,
+    isPriceFetching,
+    isSearchedCoinFetching,
+  } = useCoinGeckoApi();
+
   const [
-    {
-      coin,
-      coinBoughtValue,
-      coinList,
-      coinBoughtQuantity,
-      coinText,
-      coinMarketValue,
-      coinDate,
-      coinFetching,
-      coinPriceFetching,
-    },
+    { coin, coinDatedPrice, coinList, coinBoughtQuantity, coinText, coinDate },
     dispatch,
   ] = useReducer(formReducer, { ...defaultState, ...initialState });
 
@@ -105,11 +87,14 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     dispatch({ type: "SET_COIN_QUANTITY", payload: value });
   };
 
-  const setcoinBoughtValue = (value: number) => {
-    dispatch({ type: "SET_COIN_VALUE", payload: value });
+  const setDatedPrice = (price: number) => {
+    dispatch({
+      type: "SET_COIN_DATED_PRICE",
+      payload: price,
+    });
   };
 
-  const setCoinList = (value: []) => {
+  const setCoinList = (value: unknown[]) => {
     dispatch({ type: "SET_COIN_LIST", payload: value });
   };
 
@@ -127,128 +112,19 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     });
   };
 
-  const setcoinMarketValue = (price: string) => {
-    dispatch({
-      type: "SET_COIN_MARKET_PRICE",
-      payload: price,
-    });
-  };
-
-  const setCoinFetching = (fetching: boolean) => {
-    dispatch({
-      type: "SET_COIN_FETCHING",
-      payload: fetching,
-    });
-  };
-
-  const setCoinPriceFetching = (fetching: boolean) => {
-    dispatch({
-      type: "SET_COIN_PRICE_FETCHING",
-      payload: fetching,
-    });
-  };
+  useEffect(() => {
+    if (coin?.id) {
+      fetchCoinPriceByDate(coin?.id, coinDate).then((price) =>
+        setDatedPrice(price)
+      );
+    }
+  }, [coinDate, coin?.id]);
 
   useEffect(() => {
-    if (coinText.length < 3) {
-      return;
+    if (coinText.length >= 3) {
+      fetchCoinByName(coinText).then((coins) => setCoinList(coins));
     }
-
-    let isSubscribed = true;
-
-    const fetchData = async () => {
-      setCoinFetching(true);
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/search?query=${coinText}`
-      );
-
-      const json = await data.json();
-
-      if (!data.ok) {
-        addToast({
-          message: json.error,
-          show: true,
-          type: "error",
-        });
-      } else {
-        if (isSubscribed) {
-          setCoinList(json.coins);
-        }
-      }
-      setCoinFetching(false);
-    };
-
-    fetchData();
-
-    return () => (isSubscribed = false);
   }, [coinText]);
-
-  useEffect(() => {
-    if (coin === null) {
-      return;
-    }
-
-    let isSubscribed = true;
-
-    const fetchData = async () => {
-      setCoinPriceFetching(true);
-
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coin.id}`
-      );
-      const json = await data.json();
-
-      if (isSubscribed) {
-        setcoinBoughtValue(
-          json.market_data.current_price.eur * coinBoughtQuantity
-        );
-        setcoinMarketValue(json.market_data.current_price.eur);
-        setCoinPriceFetching(false);
-      }
-    };
-
-    fetchData().catch(console.error);
-
-    return () => (isSubscribed = false);
-  }, [coinBoughtQuantity, coin]);
-
-  /**
-   *
-   *
-   *  Date
-   *
-   *
-   */
-
-  useEffect(() => {
-    if (coin === null || !coinDate) {
-      return;
-    }
-
-    let isSubscribed = true;
-
-    const fetchData = async () => {
-      setCoinPriceFetching(true);
-
-      const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${
-          coin.id
-        }/history?date=${ddmmyyyy(coinDate, "-")}`
-      );
-      const json = await data.json();
-
-      if (isSubscribed) {
-        setcoinBoughtValue(
-          json.market_data.current_price.eur * coinBoughtQuantity
-        );
-        setcoinMarketValue(json.market_data.current_price.eur);
-        setCoinPriceFetching(false);
-      }
-    };
-
-    fetchData().catch(console.error);
-
-    return () => (isSubscribed = false);
-  }, [coinDate, coin]);
 
   const handleNameChange = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
@@ -274,6 +150,41 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     }
   };
 
+  const handleAddedCoin = (
+    coinType: Partial<PortfolioCoinType> | undefined
+  ) => {
+    if (coin) {
+      fetchCoinPriceByDate(coin?.id, new Date()).then((todayCoinPrice) => {
+        const updatedCoin = {
+          id: uuid(),
+          coin: coin as CoinType,
+          coinBoughtQuantity: coinBoughtQuantity,
+          coinDatedPrice: coinDatedPrice * coinBoughtQuantity,
+          coinMarketValue: todayCoinPrice,
+          coindate: coinDate,
+          capitalGain:
+            (todayCoinPrice as number) * coinBoughtQuantity -
+            coinDatedPrice * coinBoughtQuantity,
+        };
+
+        if (coinType) {
+          updateCoinDetails({
+            ...updatedCoin,
+            id: coinType?.id as string,
+          });
+        } else {
+          addCoin(updatedCoin);
+        }
+
+        addToast({
+          message: `Asset ${coinType ? "edited" : "added"}`,
+          type: "info",
+          show: true,
+        });
+      });
+    }
+  };
+
   const isFormValid = !!coin && !!coinDate;
 
   const form = {
@@ -281,19 +192,19 @@ const useCoinForm = (initialState: Partial<State> = {}) => {
     handleDateChange,
     handleCoinSelection,
     handleQuantityChange,
+    handleAddedCoin,
   };
 
   const fields = {
     coin,
     coinList,
-    coinBoughtValue,
+    coinDatedPrice: coinDatedPrice * coinBoughtQuantity,
     coinBoughtQuantity,
     coinText,
-    coinMarketValue,
     coinDate,
   };
 
-  const status = { coinFetching, coinPriceFetching, isFormValid };
+  const status = { isSearchedCoinFetching, isPriceFetching, isFormValid };
 
   return {
     form,
